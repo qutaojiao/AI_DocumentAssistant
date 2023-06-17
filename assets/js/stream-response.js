@@ -2,9 +2,9 @@
 import { UUID } from "https://unpkg.com/uuidjs@^5";
 // const uuid = UUID.generate();
 
-let conversation_id = "aa36352a-4ec6-4c94-847e-7ae0be124e0a";
+let conversation_id = "";
 let message_id = '';
-let parent_message_id = 'aaa273aa-0512-4b78-ada2-7ea2aba7a365';
+let parent_message_id = '';
 let end_turn = false;
 let action = 'next';
 
@@ -32,6 +32,8 @@ continueBtn.disabled = true;
 
 let controller = null; // Store the AbortController instance
 
+let messagePost={};
+
 const generate = async () => {
   // Alert the user if no prompt value
   if (!promptInput.value) {
@@ -50,17 +52,47 @@ const generate = async () => {
   const signal = controller.signal;
 
 
-
   try {
     message_id = UUID.generate();
-    // Fetch the response from the OpenAI API with the signal from AbortController
-    const response = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${OPENAI_TOKEN}`,
-      },
-      body: JSON.stringify({
+    let storedConversation_id = localStorage.getItem('conversation_id');
+    let storedparent_message_id = localStorage.getItem('parent_message_id');
+    console.log("conversation_id",storedConversation_id);
+    
+    console.log("parent_message_id2",storedparent_message_id);
+    if(storedparent_message_id === null){
+      parent_message_id = UUID.generate();
+      console.log("parent_message_id",parent_message_id);
+      console.log("storedparent_message_id",storedConversation_id);
+    }
+
+
+    if(storedConversation_id === null){
+      messagePost={
+        "action": "next",
+        "messages": [
+            {
+                "id": message_id,
+                "author": {
+                    "role": "user"
+                },
+                "content": {
+                    "content_type": "text",
+                    "parts": [
+                      promptInput.value+":"+editorText.value
+                    ]
+                },
+                "metadata": {}
+            }
+        ],
+        "parent_message_id": UUID.generate(),
+        "model": "text-davinci-002-render-sha",
+        "timezone_offset_min": -480,
+        "history_and_training_disabled": false,
+        "arkose_token": null
+    };
+
+    } else {
+      messagePost={
         "action": action,
         "messages": [
           {
@@ -77,13 +109,26 @@ const generate = async () => {
             "metadata": {}
           }
         ],
-        "conversation_id": conversation_id,
-        "parent_message_id": parent_message_id,
-        "model": "gpt-3.5-turbo",
+        "conversation_id": storedConversation_id,
+        "parent_message_id": storedparent_message_id,
+        "model": "text-davinci-002-render-sha",
         "timezone_offset_min": -480,
         "history_and_training_disabled": false,
         "arkose_token": null
-      }),
+      };
+    }
+
+
+  
+
+    // Fetch the response from the OpenAI API with the signal from AbortController
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${OPENAI_TOKEN}`,
+      },
+      body: JSON.stringify(messagePost),
       signal, // Pass the signal to the fetch request
     });
 
@@ -92,7 +137,6 @@ const generate = async () => {
     const decoder = new TextDecoder("utf-8");
     resultText.innerText = "";
 
-    let temp_parent_message_id='';
     while (true) {
       const { done, value } = await reader.read();
       console.log(done)
@@ -126,6 +170,14 @@ const generate = async () => {
         let content2 = content.parts[0];
         parent_message_id = message.id;
         end_turn = message.end_turn;
+
+        // 首次请求创建一个会话ID，并存储在浏览器存储中
+        localStorage.setItem('conversation_id', parsedLine.conversation_id);
+
+        localStorage.setItem('parent_message_id', parent_message_id);
+
+
+
         // Update the UI with the new content
         if (content) {
           resultText.innerHTML = marked.parse(content2);;
@@ -148,6 +200,7 @@ const generate = async () => {
           console.log("完成输出");
           // parent_message_id = temp_parent_message_id;
           console.log("parent_message_id",parent_message_id);
+          
           editorText.value = "";
         }
         console.log(done)
@@ -216,7 +269,6 @@ const continueGenerate = async () => {
 
     const originalText = resultText.innerText;
 
-    let temp_parent_message_id='';
     while (true) {
       const { done, value } = await reader.read();
       console.log(done)
