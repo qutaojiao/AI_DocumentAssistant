@@ -26,7 +26,7 @@ go build
 
 ## 说明
 ### 修改stream-response.js文件的token和会话ID（可以改成前端刚打开的时候填写保存在localStorage中，就不用改代码了，暂时没做）
-1、ChatGPT没有采用openai key的形式，而是直接使用的token，完全免费，不需要扣除额度的，需要有自己的openai账号，然后打开https://chat.openai.com/api/auth/session页面，copy自己的token，放到assets/js/stream-response.js文件的const OPENAI_TOKEN常量后面。圈起来的那串：
+1、ChatGPT没有采用openai key的形式，而是直接使用的token，完全免费，不需要扣除额度的，需要有自己的openai账号，然后打开https://chat.openai.com/api/auth/session  页面，copy自己的token，放到assets/js/stream-response.js文件的const OPENAI_TOKEN常量后面。圈起来的那串：
 ![Alt text](image-2.png)
 
 2、刚打开生成内容的时候，会自动创建一个会话，并且将会话ID保存在浏览器localStorage中，可以加个按钮创建新会话，暂时没做。
