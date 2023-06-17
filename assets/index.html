@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-cn">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Document Processing Assistant</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="./css/bootstrap/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container-fluid ">
+    <div class="row">
+      <div class="col-7 p-4 bg-light me-auto">
+        <h2 class="">
+          AI Document Processing Assistant
+        </h2>
+        <div id="resultContainer" class="mt-2 h-100 overflow-auto">
+          <p class="text-gray-500 text-sm mb-2">Generated Text</p>
+          <p id="resultText" class="markdown whitespace-pre-line"></p>
+        </div>
+
+        <!-- <input type="text" id="urlInput" class="w-full px-4 py-2 rounded-md bg-gray-200 text-gray-500 placeholder-gray-500 focus:outline-none mt-4" placeholder="Enter URL..." />
+          <textarea
+            id="promptInput"
+            class="w-full px-4 py-2 rounded-md bg-gray-200 text-gray-500 placeholder-gray-500 focus:outline-none mt-4"
+            placeholder="Enter prompt..."
+            style="min-height: 8.5em;"
+          ></textarea> -->
+
+      </div>
+      <div class="col-5 ps-3 pe-0 ms-auto">
+        <div class="col-auto bg-light p-4">
+          <div id="editorContainer" class="mt-2 h-50 mb-3 overflow-auto">
+            <p class="text-gray-500 text-sm mb-2">Content to be edited</p>
+            <textarea class="form-control" id="editorText" rows="19" style="resize: none;"></textarea>
+          </div>
+
+          <div class="mb-3">
+            <input type="url" class="form-control" id="urlInput" placeholder="Enter URL...">
+          </div>
+          <div class="mb-3">
+            <textarea class="form-control" id="promptInput" rows="3" placeholder="Enter prompt..."
+              style="resize: none;">将以下内容做一个总结</textarea>
+            <span class="input-group-text" id="charCount">0/30000</span>
+          </div>
+          <div class=" mt-4">
+            <button id="getUrlContentBtn" class="btn btn-primary">
+              获取URL内容
+            </button>
+            <button id="generateBtn" class="btn btn-primary">
+              生成
+            </button>
+            <button id="continueBtn" class="btn btn-primary">
+              继续
+            </button>
+            <button id="stopBtn" disabled class="btn btn-secondary">
+              停止
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  
+  <script type="module" src="./js/stream-response.js"></script>
+  <script type="module" src="./js/bootstrap/js/bootstrap.min.js"></script>
+  <script src="./js/bootstrap/js/popper.js"></script>
+  <!-- <script type="module" src="./js/main.js"></script> -->
+
+</body>
+
+</html>
