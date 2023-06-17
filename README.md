@@ -14,11 +14,12 @@ A small tool that can automatically fetch the content of a URL page and submit i
 2、URL抓取依靠chromedriver，需要提前自己安装好，chromedriver版本和chrome或者chromium的版本需要保持一致，网上教程很多，就不在这里讲了，自行安装好。
 
 ## 使用方法
-
+```
 git clone https://github.com/qutaojiao/AI_DocumentAssistant.git
 cd AI_DocumentAssistant
 go build
 ./main
+```
 
 运行之后，直接访问https://127.0.0.1:8888就可以打开页面了。
 
