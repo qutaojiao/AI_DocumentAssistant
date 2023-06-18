@@ -25,7 +25,7 @@ go build
 运行之后，直接访问https://127.0.0.1:8888就可以打开页面了。
 
 ## 说明
-### 修改stream-response.js文件的token和会话ID（可以改成前端刚打开的时候填写保存在localStorage中，就不用改代码了，暂时没做）
+### 修改stream-response.js文件的openai token（可以改成前端刚打开的时候填写保存在localStorage中，就不用改代码了，暂时没做）
 1、ChatGPT没有采用openai key的形式，而是直接使用的token，完全免费，不需要扣除额度的，需要有自己的openai账号，然后打开https://chat.openai.com/api/auth/session  页面，copy自己的token，放到assets/js/stream-response.js文件的const OPENAI_TOKEN常量后面。圈起来的那串：
 ![Alt text](image-2.png)
 
@@ -58,7 +58,7 @@ go build
 After running the above commands, you can directly access https://127.0.0.1:8888 to open the web page.
 
 ## Instructions
-Modify the token and session ID in the "stream-response.js" file (can be changed to be filled in by the frontend and saved in localStorage, so there's no need to modify the code, but this feature is currently not implemented).
+Modify the openai token in the "stream-response.js" file (can be changed to be filled in by the frontend and saved in localStorage, so there's no need to modify the code, but this feature is currently not implemented).
 ChatGPT does not use the OpenAI key, but directly uses a token, which is completely free and does not deduct any quota. You need to have your own OpenAI account and open the https://chat.openai.com/api/auth/session page to copy your token. Then, place it after the constant const OPENAI_TOKEN in the "assets/js/stream-response.js" file. The highlighted part in the following image:
 Alt text
 ![Alt text](image-2.png)
